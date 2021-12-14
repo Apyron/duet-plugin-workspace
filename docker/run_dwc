@@ -1,0 +1,23 @@
+#!/bin/bash
+patch_plugins() {
+    plugins_root="/src/plugins"
+    plugins_list=`ls $plugins_root`
+    plugin_args=""
+    for p in $plugins_list; do
+        plugin_path="$plugins_root/$p"
+        # Only DWC plugins are supported!
+        if [ -d "$plugin_path/src" ]; then
+            plugin_args="$plugin_args $p"
+            dest_plugin_path="/app/DuetWebControl/src/plugins/$p"
+            ln -s $plugin_path $dest_plugin_path
+        fi
+    done
+    plugin_args=`echo "$plugin_args" | xargs`
+    plugin_index_patch="/app/DuetWebControl/src/plugins/index.patched.js"
+    plugin_index_dest="/app/DuetWebControl/src/plugins/index.js"
+    python3 -u /usr/bin/patch_plugins.py $PLUGIN_INDEX_ORIGINAL $plugin_index_patch $plugin_args
+    rm -rf $plugin_index_dest
+    ln -s $plugin_index_patch $plugin_index_dest
+}
+rm -rf /app/DuetWebControl/vue.config.js && ln -s /app/DuetWebControl/vue.config.docker.js /app/DuetWebControl/vue.config.js
+npm run serve

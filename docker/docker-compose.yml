@@ -1,0 +1,10 @@
+version: "3"
+services:
+  plugin_dev_env:
+    build:
+      context: "./"
+      dockerfile: dev_env.dockerfile
+    volumes:
+      - "../plugins:/src/plugins"
+    ports:
+      - 127.0.0.1:8922:8080
