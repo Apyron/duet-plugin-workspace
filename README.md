@@ -22,7 +22,7 @@ Command to run in terminal are `written like this`!
     - there is a demo plugin preinstalled, so for testing purposes you can skip this step.
 - to run the simulator with plugins: `run_dwc`
     - you can now go to http://localhost:8922. This will open a duet web page, click cancel if asked to connect to a printer.
-- to build the plugins of choice to upload them to a Duet-enabled printer, run `build_plugn <plugin name>`
+- to build the plugins of choice to upload them to a Duet-enabled printer, run `build_plugin <plugin name>`
     - **note**: If you run `build_plugin` without any arguments, you get a list of plugins to build. 
 
 In the end you should be able to laod your plugin like in the screenshot below:
