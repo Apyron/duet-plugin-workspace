@@ -1,6 +1,6 @@
 'use strict'
 
-import { registerSettingTab } from '../../routes'
+import { registerSettingTab } from 'dwc/routes'
 
 import EndstopsMonitor from './EndstopsMonitor.vue'
 

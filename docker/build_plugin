@@ -7,11 +7,12 @@ if [ -z "$1" ]; then
     exit
 fi
 
-plugin_index="/app/DuetWebControl/src/plugins/index.original.js"
-plugin_index_dest="/app/DuetWebControl/src/plugins/index.js"
-rm -rf $plugin_index_dest
-ln -s $plugin_index $plugin_index_dest
+patch_plugins() {
+    plugin_index_dest="/app/DuetWebControl/src/plugins/index.js"
+    rm -rf $plugin_index_dest && ln -s $PLUGIN_INDEX_ORIGINAL $plugin_index_dest
+}
 
+patch_plugins
 rm -rf /app/DuetWebControl/vue.config.js && ln -s /app/DuetWebControl/vue.config.original.js /app/DuetWebControl/vue.config.js
 npm run build-plugin "/src/plugins/$1"
 plugin_file=`find . -name "$1-*.zip" | head -n 1`

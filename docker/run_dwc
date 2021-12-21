@@ -9,15 +9,17 @@ patch_plugins() {
         if [ -d "$plugin_path/src" ]; then
             plugin_args="$plugin_args $p"
             dest_plugin_path="/app/DuetWebControl/src/plugins/$p"
-            ln -s $plugin_path $dest_plugin_path
+            if [ ! -d "$dest_plugin_path" ]; then
+                ln -s $plugin_path $dest_plugin_path
+            fi
         fi
     done
     plugin_args=`echo "$plugin_args" | xargs`
     plugin_index_patch="/app/DuetWebControl/src/plugins/index.patched.js"
     plugin_index_dest="/app/DuetWebControl/src/plugins/index.js"
     python3 -u /usr/bin/patch_plugins.py $PLUGIN_INDEX_ORIGINAL $plugin_index_patch $plugin_args
-    rm -rf $plugin_index_dest
-    ln -s $plugin_index_patch $plugin_index_dest
+    rm -rf $plugin_index_dest && ln -s $plugin_index_patch $plugin_index_dest
 }
+patch_plugins
 rm -rf /app/DuetWebControl/vue.config.js && ln -s /app/DuetWebControl/vue.config.docker.js /app/DuetWebControl/vue.config.js
 npm run serve

@@ -21,7 +21,7 @@ RUN echo "Installing DWC..." && \
 ENV PLUGIN_INDEX_ORIGINAL /app/DuetWebControl/src/plugins/index.original.js
 
 RUN echo "Patching DWC to work with Docker" && \
-    result=$(cat /app/DuetWebControl/vue.config.js | sed "s/configureWebpack: {/configureWebpack: {resolve: {symlinks: false},/") && \
+    result=$(cat /app/DuetWebControl/vue.config.js | sed "s|configureWebpack: {|configureWebpack: {resolve: { symlinks: false, alias: { dwc: '/app/DuetWebControl/src' } },|") && \
     mv /app/DuetWebControl/vue.config.js /app/DuetWebControl/vue.config.original.js && \
     mv /app/DuetWebControl/src/plugins/index.js $PLUGIN_INDEX_ORIGINAL && \
     echo "$result" > /app/DuetWebControl/vue.config.docker.js
