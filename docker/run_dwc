@@ -21,5 +21,5 @@ patch_plugins() {
     rm -rf $plugin_index_dest && ln -s $plugin_index_patch $plugin_index_dest
 }
 patch_plugins
-rm -rf /app/DuetWebControl/vue.config.js && ln -s /app/DuetWebControl/vue.config.docker.js /app/DuetWebControl/vue.config.js
-npm run serve
+rm -rf /app/DuetWebControl/vue.config.js && ln -s /app/DuetWebControl/vue.config.run_dwc.js /app/DuetWebControl/vue.config.js
+npm run serve -- --port 8922

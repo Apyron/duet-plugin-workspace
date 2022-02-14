@@ -1,0 +1,14 @@
+{
+  "id": "ExamplePythonPlugin",
+  "name": "Example Python Plugin",
+  "author": "Tank",
+  "version": "3.3.0",
+  "license": "GPL-3.0-or-later",
+  "homepage": "https://github.com/Duet3D/DSF-Plugins",
+  "dwcVersion": "3.3",
+  "sbcRequired": true,
+  "sbcExecutable": "test.py",
+  "sbcExecutableArguments": null,
+  "sbcOutputRedirected":  false,
+  "sbcPermissions": ["registerHttpEndpoints"]
+}

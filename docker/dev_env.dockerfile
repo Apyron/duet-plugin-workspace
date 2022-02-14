@@ -16,15 +16,17 @@ RUN echo "Installing DWC..." && \
     cd /app/DuetWebControl && \
     npm install && \
     # Dependencies used by our plugins
-    npm install --save axios vuedraggable
+    npm install --save axios vuedraggable moment
 
 ENV PLUGIN_INDEX_ORIGINAL /app/DuetWebControl/src/plugins/index.original.js
 
 RUN echo "Patching DWC to work with Docker" && \
-    result=$(cat /app/DuetWebControl/vue.config.js | sed "s|configureWebpack: {|configureWebpack: {resolve: { symlinks: false, alias: { dwc: '/app/DuetWebControl/src' } },|") && \
-    mv /app/DuetWebControl/vue.config.js /app/DuetWebControl/vue.config.original.js && \
     mv /app/DuetWebControl/src/plugins/index.js $PLUGIN_INDEX_ORIGINAL && \
-    echo "$result" > /app/DuetWebControl/vue.config.docker.js
+    result_run_dwc=$(cat /app/DuetWebControl/vue.config.js | sed "s|configureWebpack: {|configureWebpack: {resolve: { symlinks: false, alias: { dwc: '/app/DuetWebControl/src' } },|") && \
+    result_build_plugin=$(cat /app/DuetWebControl/vue.config.js | sed "s|configureWebpack: {|configureWebpack: {resolve: { alias: { dwc: '/app/DuetWebControl/src' } },|") && \
+    mv /app/DuetWebControl/vue.config.js /app/DuetWebControl/vue.config.original.js && \
+    echo "$result_run_dwc" > /app/DuetWebControl/vue.config.run_dwc.js && \
+    echo "$result_build_plugin" > /app/DuetWebControl/vue.config.build_plugin.js
 
 ADD ./build_plugin /usr/bin/build_plugin
 ADD patch_plugins.py /usr/bin/patch_plugins.py
